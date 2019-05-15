@@ -51,7 +51,7 @@ cosine_sim = cosine_similarity(data_matrix_dummy, data_matrix_dummy)
 # User - User similarity in array with cosine similarity
 user_similarity = cosine_sim
 # Item - Item similarity in array with cosine similarity
-item_similarity = cosine_sim
+item_similarity = np.transpose(cosine_sim)
 
 
 us_sim = user_similarity[:100, :100]
@@ -129,7 +129,7 @@ plt.xlabel("Eigenvalue")
 plt.ylabel("Count")
 plt.show()
 
-# DEGREE PLOT
+# DEGREE DISTRIBUTION PLOT
 degree_sequence = sorted([d for n, d in g.degree()], reverse=True)
 degreeCount = collections.Counter(degree_sequence)
 deg, cnt = zip(*degreeCount.items())
@@ -147,3 +147,19 @@ plt.show()
 print("Clustering Coefficient")
 print(nx.clustering(g))
 print("Average Clustering Coefficient: ",nx.average_clustering(g))
+
+# Diameter for the network
+print("Diameter")
+print(nx.diameter(g))
+
+# Connectivity
+print("Is the network connected?")
+if nx.is_connected(g):
+    print("The network is connected")
+    components = [c for c in nx.connected_components(g)]
+    print(max(components))
+elif not nx.is_connected(g):
+    print("Largest connected component:")
+    components = [c for c in nx.connected_components(g)]
+    print(max(components))
+
